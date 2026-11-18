@@ -1,0 +1,10 @@
+import {useState} from 'react';import {Search,Plus,RefreshCw} from 'lucide-react';
+export function PageHead({eyebrow,title,subtitle,action,onAction}){return <div className="page-head"><div><div className="eyebrow">{eyebrow||'FACTORY MANAGEMENT'}</div><h1>{title}</h1><p>{subtitle}</p></div>{action&&<button className="primary-btn" onClick={onAction}><Plus size={17}/>{action}</button>}</div>}
+export function Panel({title,action,children,icon:Icon}){return <section className="panel"><div className="panel-head"> <h3>{Icon&&<Icon size={18}/>} {title}</h3>{action}</div>{children}</section>}
+export function Table({columns,rows,empty='No records found'}){return <div className="table-wrap"><table><thead><tr>{columns.map(c=><th key={c.key}>{c.label}</th>)}</tr></thead><tbody>{rows.length?rows.map((r,i)=><tr key={r.id||i}>{columns.map(c=><td key={c.key}>{c.render?c.render(r):r[c.key]??'—'}</td>)}</tr>):<tr><td colSpan={columns.length} className="empty">{empty}</td></tr>}</tbody></table></div>}
+export function SearchBox({value,onChange,placeholder='Search records...'}){return <div className="search-box"><Search size={16}/><input value={value} onChange={e=>onChange(e.target.value)} placeholder={placeholder}/></div>}
+export function Modal({title,onClose,children}){return <div className="modal-backdrop" onMouseDown={e=>e.target===e.currentTarget&&onClose()}><div className="modal"><div className="modal-head"><h2>{title}</h2><button onClick={onClose}>×</button></div>{children}</div></div>}
+export function Field({label,...props}){return <label className="field"><span>{label}</span><input {...props}/></label>}
+export function SelectField({label,children,...props}){return <label className="field"><span>{label}</span><select {...props}>{children}</select></label>}
+export function Status({value}){return <span className={'status '+String(value||'').toLowerCase().replaceAll(' ','-')}>{value||'—'}</span>}
+export function useToast(){const [toast,setToast]=useState('');function show(m){setToast(m);setTimeout(()=>setToast(''),3200)}return {toast,show,Toast:()=>toast?<div className="toast">✓ {toast}</div>:null}}
